@@ -19,29 +19,6 @@ static RingbufHandle_t ringBuf;
 uint8_t IRrecv_Pin;
 uint8_t IRrecv_Chanel;
 
-void IRrecvDumStatus(rmt_channel_t channel)
-{
-  bool loop_en;
-  uint8_t div_cnt;
-  uint8_t memNum;
-  bool lowPowerMode;
-  rmt_mem_owner_t owner;
-  uint16_t idleThreshold;
-  uint32_t status;
-  rmt_source_clk_t srcClk;
-
-  rmt_get_tx_loop_mode(channel, &loop_en);
-  rmt_get_clk_div(channel, &div_cnt);
-  rmt_get_mem_block_num(channel, &memNum);
-  rmt_get_mem_pd(channel, &lowPowerMode);
-  rmt_get_memory_owner(channel, &owner);
-  rmt_get_rx_idle_thresh(channel, &idleThreshold);
-  rmt_get_status(channel, &status);
-  rmt_get_source_clk(channel, &srcClk);
-
-  printf("Status for RMT channel %d\n", (uint8_t)channel);
-}
-
 void IRrecvInit(uint8_t pin, uint8_t port)
 {
   IRrecv_Pin = pin;
@@ -62,7 +39,6 @@ void IRrecvInit(uint8_t pin, uint8_t port)
 
   rmt_get_ringbuf_handler(config.channel, &ringBuf);
 
-  IRrecvDumStatus(config.channel);
   rmt_rx_start(config.channel, 1);
 
   return;
